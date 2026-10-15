@@ -1,10 +1,8 @@
 package com.myproject.vked2026.ui.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,38 +15,47 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Shapes
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.myproject.vked2026.R
+import com.myproject.vked2026.domain.AppItem
+import com.myproject.vked2026.ui.components.AppElement
 import com.myproject.vked2026.ui.theme.VkEd2026Theme
+import kotlinx.serialization.Serializable
 
-private data class AppItem(
-    val id: String,
-    val image: Int,
-    val name: String,
-    val description: String,
-    val category: String,
-)
+@Serializable
+data object AppListRoute{ const val ROUTE: String = "AppListRoute" }
 
-private val appItems = listOf(
-    AppItem("1", R.drawable.ic_launcher_foreground, "App1", "App1 description", "Game"),
-    AppItem("2", R.drawable.ic_launcher_foreground, "App2", "App2 description", "Tool"),
-    AppItem("3", R.drawable.ic_launcher_foreground, "App3", "App3 description", "Game"),
-    AppItem("4", R.drawable.ic_launcher_foreground, "App4", "App4 description", "Tool"),
-    AppItem("5", R.drawable.ic_launcher_foreground, "App5", "App5 description", "Tool"),
-)
+private val appItems = buildList {
+    val appItem = AppItem(
+        "1",
+        R.drawable.ic_launcher_foreground,
+        "App",
+        "description",
+        "Game"
+    )
+
+    repeat(10) {
+        add(appItem.copy(id = it.toString()))
+    }
+}
 
 @Composable
-fun AppListScreen(
+fun AppListScreenRoute(
+    onElementClick: (String) -> Unit,
+) {
+    AppListScreen(
+        onElementClick
+    )
+}
+
+@Composable
+private fun AppListScreen(
+    onElementClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -58,7 +65,7 @@ fun AppListScreen(
     ) {
         ToolBar()
 
-        AppList(appItems)
+        AppList(appItems, onElementClick)
     }
 }
 
@@ -81,6 +88,7 @@ private fun ToolBar(
 @Composable
 private fun AppList(
     data: List<AppItem>,
+    onElementClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -91,29 +99,7 @@ private fun AppList(
             .padding(8.dp)
     ) {
         items(items = data, key = { it.id }) { app ->
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(48.dp)
-                    .border(
-                        1.dp,
-                        MaterialTheme.colorScheme.onBackground,
-                        Shapes().medium
-                    )
-            ) {
-                Icon(painterResource(app.image), null)
-                Column(
-                    verticalArrangement = Arrangement.SpaceBetween,
-                    horizontalAlignment = Alignment.Start,
-                    modifier = Modifier
-                        .fillMaxSize()
-                ) {
-                    Text("${app.name} - ${app.category}")
-                    Text(app.description, fontSize = TextUnit(12f, TextUnitType.Sp))
-                }
-            }
+            AppElement(app, onElementClick)
         }
     }
 }
@@ -140,7 +126,7 @@ private fun AppListPreview() {
             contentWindowInsets = WindowInsets(left = 16.dp, right = 16.dp, top = 32.dp),
             modifier = Modifier.fillMaxSize()
         ) { _ ->
-            AppList(appItems)
+            AppList(appItems, {})
         }
     }
 }
@@ -153,7 +139,7 @@ private fun AppListScreenPreview() {
             contentWindowInsets = WindowInsets(left = 16.dp, right = 16.dp, top = 32.dp),
             modifier = Modifier.fillMaxSize()
         ) { _ ->
-            AppListScreen()
+            AppListScreen({})
         }
     }
 }
