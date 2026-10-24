@@ -12,49 +12,39 @@ import androidx.compose.foundation.pager.PagerState
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.myproject.vked2026.R
 import com.myproject.vked2026.domain.AppItem
 import com.myproject.vked2026.ui.components.AppElement
 import com.myproject.vked2026.ui.theme.VkEd2026Theme
+import com.myproject.vked2026.ui.viewmodels.AppDetailsViewModel
 import kotlinx.serialization.Serializable
 
 @Serializable
 data object AppDetailsRoute { const val ROUTE: String = "AppDetailsRoute" }
 
-const val PAGE_SIZE_COUNT = 3
-private val appItems = buildList {
-    val appItem = AppItem(
-        "1",
-        R.drawable.ic_launcher_foreground,
-        "App",
-        "description",
-        "Game"
-    )
-
-    repeat(10) {
-        add(appItem.copy(id = it.toString()))
-    }
-}
-
-
 @Composable
 fun AppDetailsScreenRoute(
     appId: String,
     toAppList: () -> Unit,
+    viewModel: AppDetailsViewModel = AppDetailsViewModel()
 ) {
-    AppDetails(appId, toAppList)
+    AppDetails(appId, toAppList, viewModel)
 }
 
 @Composable
 private fun AppDetails(
     appId: String,
     toAppList: () -> Unit,
+    viewModel: AppDetailsViewModel,
     modifier: Modifier = Modifier
 ) {
+    val appItems by viewModel.appItems.collectAsStateWithLifecycle()
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -63,6 +53,8 @@ private fun AppDetails(
         Text("App:$appId details screen")
 
         Showcase(
+            viewModel.pageSizeCount,
+            appItems,
             toAppList
         )
     }
@@ -70,6 +62,8 @@ private fun AppDetails(
 
 @Composable
 private fun Showcase(
+    pageSizeCount: Int,
+    appItems: List<AppItem>,
     toAppList: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -84,7 +78,7 @@ private fun Showcase(
                 .fillMaxWidth()
                 .wrapContentHeight()
         ) {
-            for (i in (pagerState.currentPage*PAGE_SIZE_COUNT)..<(pagerState.currentPage*PAGE_SIZE_COUNT + PAGE_SIZE_COUNT))
+            for (i in (pagerState.currentPage*pageSizeCount)..<(pagerState.currentPage*pageSizeCount + pageSizeCount))
             AppElement(appItems[i]) { toAppList() }
         }
     }
@@ -99,7 +93,7 @@ private fun ShowcasePreview() {
             contentWindowInsets = WindowInsets(left = 16.dp, right = 16.dp, top = 32.dp),
             modifier = Modifier.fillMaxSize()
         ) { _ ->
-            Showcase({})
+            Showcase(3, listOf(),{})
         }
     }
 }
