@@ -5,12 +5,17 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.myproject.vked2026.ui.screens.AppDetailsRoute
+import com.myproject.vked2026.ui.screens.AppDetailsScreenRoute
+import com.myproject.vked2026.ui.screens.AppListRoute
+import com.myproject.vked2026.ui.screens.AppListScreenRoute
 import com.myproject.vked2026.ui.theme.VkEd2026Theme
 
 class MainActivity : ComponentActivity() {
@@ -20,28 +25,31 @@ class MainActivity : ComponentActivity() {
         setContent {
             VkEd2026Theme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+
+                    val navController = rememberNavController()
+
+                    NavHost(
+                        navController = navController,
+                        startDestination = AppListRoute.ROUTE
+                    ) {
+                        composable(route = AppListRoute.ROUTE) {
+                            AppListScreenRoute { appId ->
+                                navController.navigate(AppDetailsRoute.ROUTE + "/$appId")
+                            }
+                        }
+
+                        composable(
+                            route = AppDetailsRoute.ROUTE + "/{appId}",
+                            arguments = listOf(navArgument("appId") { type = NavType.StringType })
+                        ) { navBackStack ->
+                            val appId = navBackStack.arguments?.getString("appId") ?: ""
+                            AppDetailsScreenRoute(appId) {
+                                navController.navigate(AppListRoute.ROUTE)
+                            }
+                        }
+                    }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    VkEd2026Theme {
-        Greeting("Android")
     }
 }
