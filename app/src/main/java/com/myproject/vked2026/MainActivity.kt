@@ -12,12 +12,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.myproject.vked2026.ui.screens.AppDetailsRoute
-import com.myproject.vked2026.ui.screens.AppDetailsScreenRoute
-import com.myproject.vked2026.ui.screens.AppListRoute
-import com.myproject.vked2026.ui.screens.AppListScreenRoute
+import com.myproject.vked2026.presentation.screens.AppDetailsRoute
+import com.myproject.vked2026.presentation.screens.AppDetailsScreenRoute
+import com.myproject.vked2026.presentation.screens.AppListRoute
+import com.myproject.vked2026.presentation.screens.AppListScreenRoute
 import com.myproject.vked2026.ui.theme.VkEd2026Theme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

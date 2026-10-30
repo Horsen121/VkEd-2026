@@ -2,9 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.ksp) apply false
-    alias(libs.plugins.hilt) apply false
-    alias(libs.plugins.room) apply false
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.room)
 }
 
 android {
@@ -39,9 +39,15 @@ android {
     }
 }
 
+room {
+    schemaDirectory("$projectDir/app/src/main/assets/schemas")
+}
+
 dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.navigation.compose)
+    ksp(libs.hilt.android.compiler)
+    ksp(libs.androidx.room.compiler)
 
     implementation(libs.bundles.compose)
     implementation(libs.bundles.androidx.hilt)
