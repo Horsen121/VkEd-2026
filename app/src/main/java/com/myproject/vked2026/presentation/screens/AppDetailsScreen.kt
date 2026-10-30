@@ -1,4 +1,4 @@
-package com.myproject.vked2026.ui.screens
+package com.myproject.vked2026.presentation.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,12 +17,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.myproject.vked2026.R
-import com.myproject.vked2026.domain.AppItem
+import com.myproject.vked2026.domain.models.AppItem
+import com.myproject.vked2026.presentation.viewmodels.AppDetailsViewModel
 import com.myproject.vked2026.ui.components.AppElement
 import com.myproject.vked2026.ui.theme.VkEd2026Theme
-import com.myproject.vked2026.ui.viewmodels.AppDetailsViewModel
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -31,8 +31,8 @@ data object AppDetailsRoute { const val ROUTE: String = "AppDetailsRoute" }
 @Composable
 fun AppDetailsScreenRoute(
     appId: String,
+    viewModel: AppDetailsViewModel = hiltViewModel(),
     toAppList: () -> Unit,
-    viewModel: AppDetailsViewModel = AppDetailsViewModel()
 ) {
     AppDetails(appId, toAppList, viewModel)
 }

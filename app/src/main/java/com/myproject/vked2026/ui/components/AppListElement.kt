@@ -20,7 +20,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
-import com.myproject.vked2026.domain.AppItem
+import com.myproject.vked2026.domain.models.AppItem
 
 @Composable
 fun AppElement(
