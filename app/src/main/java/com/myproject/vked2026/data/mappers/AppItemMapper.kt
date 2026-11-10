@@ -8,8 +8,18 @@ import com.myproject.vked2026.domain.models.AppItem
 fun AppItemDto.toDomain(): AppItem {
     return AppItem(
         id = this.id,
-        image = this.picture,
-        name = this.title,
+        image = this.iconUrl,
+        name = this.name,
+        description = this.description,
+        category = this.category
+    )
+}
+
+fun AppItemDto.toEntity(): AppItemEntity {
+    return AppItemEntity(
+        id = this.id,
+        image = this.iconUrl,
+        name = this.name,
         description = this.description,
         category = this.category
     )

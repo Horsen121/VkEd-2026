@@ -20,6 +20,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
+import com.myproject.vked2026.R
 import com.myproject.vked2026.domain.models.AppItem
 
 @Composable
@@ -40,16 +41,15 @@ fun AppElement(
             )
             .clickable(onClick =  { onElementClick(app.id) } )
     ) {
-        Icon(painterResource(app.image), null)
+        Icon(painterResource(R.drawable.ic_launcher_foreground), null)
         Column(
             verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.Start,
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            val appName = "${app.name}${app.id}"
-            Text("$appName - ${app.category}")
-            Text("$appName ${app.description}", fontSize = TextUnit(12f, TextUnitType.Sp))
+            Text("${app.name} - ${app.category}")
+            Text(app.description, fontSize = TextUnit(12f, TextUnitType.Sp))
         }
     }
 }

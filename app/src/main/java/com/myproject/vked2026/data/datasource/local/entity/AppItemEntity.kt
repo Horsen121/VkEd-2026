@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "app_items")
 data class AppItemEntity(
     @PrimaryKey val id: String,
-    val image: Int,
+    val image: String,
     val name: String,
     val description: String,
     val category: String,

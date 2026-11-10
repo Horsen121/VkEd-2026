@@ -3,7 +3,7 @@ package com.myproject.vked2026.presentation.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.myproject.vked2026.domain.models.AppItem
-import com.myproject.vked2026.domain.usecases.GetAppItemsUseCase
+import com.myproject.vked2026.domain.usecases.GetLikelyAppItemsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AppDetailsViewModel @Inject constructor(
-    private val getAppItemsUseCase: GetAppItemsUseCase
+    private val getLikelyAppItemsUseCase: GetLikelyAppItemsUseCase
 ): ViewModel() {
     val pageSizeCount = 3
 
@@ -27,7 +27,7 @@ class AppDetailsViewModel @Inject constructor(
 
     private fun loadAppItems() {
         viewModelScope.launch {
-            val list = getAppItemsUseCase().first()
+            val list = getLikelyAppItemsUseCase().first()
             _appItems.value = list
         }
     }

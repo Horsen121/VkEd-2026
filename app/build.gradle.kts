@@ -52,4 +52,5 @@ dependencies {
     implementation(libs.bundles.compose)
     implementation(libs.bundles.androidx.hilt)
     implementation(libs.bundles.androidx.room)
+    implementation(libs.bundles.androidx.retrofit)
 }

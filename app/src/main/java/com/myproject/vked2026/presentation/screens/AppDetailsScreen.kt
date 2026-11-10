@@ -50,7 +50,7 @@ private fun AppDetails(
             .fillMaxSize()
             .safeContentPadding()
     ) {
-        Text("App:$appId details screen")
+        Text("$appId details screen")
 
         Showcase(
             viewModel.pageSizeCount,
@@ -78,8 +78,10 @@ private fun Showcase(
                 .fillMaxWidth()
                 .wrapContentHeight()
         ) {
-            for (i in (pagerState.currentPage*pageSizeCount)..<(pagerState.currentPage*pageSizeCount + pageSizeCount))
-            AppElement(appItems[i]) { toAppList() }
+            if (appItems.isNotEmpty()) {
+                for (i in (pagerState.currentPage * pageSizeCount)..<(pagerState.currentPage * pageSizeCount + pageSizeCount))
+                    AppElement(appItems[i]) { toAppList() }
+            }
         }
     }
 }

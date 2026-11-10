@@ -5,9 +5,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class AppItemDto(
     val id: String,
-    val title: String,
+    val name: String,
     val description: String,
-    val picture: Int,
+    val iconUrl: String,
     val category: String,
 )
 

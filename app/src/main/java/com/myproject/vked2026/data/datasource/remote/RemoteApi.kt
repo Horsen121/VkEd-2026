@@ -1,26 +1,16 @@
 package com.myproject.vked2026.data.datasource.remote
 
-import com.myproject.vked2026.R
+import com.myproject.vked2026.data.dto.AppDetailsDto
 import com.myproject.vked2026.data.dto.AppItemDto
+import retrofit2.Response
+import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface RemoteApi {
-    suspend fun getApps(): List<AppItemDto>
-}
 
-object RemoteApiImpl: RemoteApi {
-    override suspend fun getApps(): List<AppItemDto> {
-        val appItem = AppItemDto(
-            "1",
-            "App",
-            "description",
-            R.drawable.ic_launcher_foreground,
-            "Game",
-        )
+    @GET("catalog")
+    suspend fun getApps(): Response<List<AppItemDto>>
 
-        val apps = List(10) { index ->
-            appItem.copy(id = index.toString())
-        }
-
-        return apps
-    }
+    @GET("{id}")
+    suspend fun getAppDetails(@Query("id") id: String): Response<AppDetailsDto>
 }

@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class AppItem(
     val id: String,
-    val image: Int,
+    val image: String,
     val name: String,
     val description: String,
     val category: String,
